@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "target": "es5"
+  },
+  "include": ["**/*.ts", "../phaser3-project-template/src/main.ts"]
+}
