@@ -1,8 +1,8 @@
 import * as Phaser from "phaser";
-import { Player } from "./player";
+import { Player } from "./Player";
 import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
-import { Grid } from "matter";
+import { Direction } from "./Directions";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -20,11 +20,12 @@ export class GameScene extends Phaser.Scene {
   constructor() {
     super(sceneConfig);
   }
+
   public preload() {    
     this.load.image("tiles", "assets/Tilemap.png");
     this.load.tilemapTiledJSON("test-map", "assets/testIsland.json");
     this.load.spritesheet("player", "assets/NickSprite.png",{
-      frameWidth: 55,
+      frameWidth: 60,
       frameHeight: 64,
     });
   }
@@ -41,22 +42,60 @@ export class GameScene extends Phaser.Scene {
       layer.scale = 4;
     }
 
-    const playerSprite = this.add.sprite(0,0, "player");
+
+    //PlayerSprite Configs
+    const playerSprite = this.add.sprite(0, 0, "player");
     playerSprite.setDepth(2);
     playerSprite.scale = 1;
+    //Camera Settings
     this.cameras.main.startFollow(playerSprite);
     this.cameras.main.roundPixels = true;
+    //Creates instance of Player
     const player = new Player(playerSprite, new Phaser.Math.Vector2(6, 6));
+
+    
+
+    //Adds Grid control to the player's sprite.
     this.gridPhysics = new GridPhysics(player);
     this.gridControls = new GridControls(
       this.input,
       this.gridPhysics
     );
-    }
-    public update(_time: number, delta: number) {
-      this.gridControls.update();
-      this.gridPhysics.update(delta);
-    }
+
+    //Each number refers to position on the Frame, starting 0-11
+
+    this.createPlayerAnimation(Direction.UP, 3, 5);
+    this.createPlayerAnimation(Direction.RIGHT, 9, 11);
+    this.createPlayerAnimation(Direction.DOWN, 0, 2);
+    this.createPlayerAnimation(Direction.LEFT, 6, 8);
+
+  }
+  public update(_time: number, delta: number) {
+    this.gridControls.update();
+    this.gridPhysics.update(delta);
+  }
+
+  //Private Method that allows for player Animation
+  //Name: Direction of Animation, Starting Frame on Spritesheet, 
+  //End Frame of Direction
+
+  private createPlayerAnimation(
+    name: string, 
+    startFrame: number,
+    endFrame: number
+  ) {
+    this.anims.create({
+      key: name,
+      frames: this.anims.generateFrameNumbers("player", {
+        start: startFrame,
+        end: endFrame,
+      }),
+      frameRate: 12,
+      repeat: -1,
+      yoyo: true,
+    });
+
+  }
 
 }
 
@@ -77,3 +116,4 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 };
 
 export const game = new Phaser.Game(gameConfig);
+

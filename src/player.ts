@@ -1,3 +1,4 @@
+import { Direction } from "./Directions";
 import { GameScene } from "./main";
 
 //create a player class
@@ -16,7 +17,7 @@ export class Player {
             tilePos.x * GameScene.TILE_SIZE + offsetX,
             tilePos.y * GameScene.TILE_SIZE + offsetY
         );
-        this.sprite.setFrame(55); //dunno why it's 55
+        this.sprite.setFrame(0);
     }
 
     getPosition(): Phaser.Math.Vector2{
@@ -25,6 +26,19 @@ export class Player {
     
     setPosition(position: Phaser.Math.Vector2): void {
         this.sprite.setPosition(position.x, position.y);
+    }
+
+    stopAnimation() {
+        if(this.sprite.anims.currentAnim){
+            const standingFrame = this.sprite.anims.currentAnim.frames[0].frame.name;
+            this.sprite.anims.stop();
+            this.sprite.setFrame(standingFrame);
+        }
+        this.sprite.anims.stop();
+    }
+
+    startAnimation(direction: Direction) {
+        this.sprite.anims.play(direction);
     }
 
 }
