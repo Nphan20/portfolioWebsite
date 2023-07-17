@@ -24,7 +24,7 @@ export class GameScene extends Phaser.Scene {
   public preload() {    
     this.load.image("tiles", "assets/Tilemap.png");
     this.load.tilemapTiledJSON("test-map", "assets/testIsland.json");
-    this.load.spritesheet("player", "assets/NickSprite.png",{
+    this.load.spritesheet("player", "assets/NickSpriteV2.png",{
       frameWidth: 60,
       frameHeight: 64,
     });
@@ -90,7 +90,7 @@ export class GameScene extends Phaser.Scene {
         start: startFrame,
         end: endFrame,
       }),
-      frameRate: 12,
+      frameRate: 8,
       repeat: -1,
       yoyo: true,
     });

@@ -17,7 +17,7 @@ export class Player {
             tilePos.x * GameScene.TILE_SIZE + offsetX,
             tilePos.y * GameScene.TILE_SIZE + offsetY
         );
-        this.sprite.setFrame(0);
+        this.sprite.setFrame(1);
     }
 
     getPosition(): Phaser.Math.Vector2{
@@ -30,7 +30,7 @@ export class Player {
 
     stopAnimation() {
         if(this.sprite.anims.currentAnim){
-            const standingFrame = this.sprite.anims.currentAnim.frames[0].frame.name;
+            const standingFrame = this.sprite.anims.currentAnim.frames[1].frame.name;
             this.sprite.anims.stop();
             this.sprite.setFrame(standingFrame);
         }
