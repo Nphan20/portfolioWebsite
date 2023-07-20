@@ -28,13 +28,21 @@ export class Player {
         this.sprite.setPosition(position.x, position.y);
     }
 
-    stopAnimation() {
-        if(this.sprite.anims.currentAnim){
-            const standingFrame = this.sprite.anims.currentAnim.frames[1].frame.name;
-            this.sprite.anims.stop();
-            this.sprite.setFrame(standingFrame);
-        }
+    getTilePos(): Phaser.Math.Vector2{
+        return this.tilePos.clone();
+    }
+    
+    setTilePos(tilePosition: Phaser.Math.Vector2): void{
+        this.tilePos = tilePosition.clone();
+    }
+    
+
+    stopAnimation(direction: Direction) {
+
+        const animationManager = this.sprite.anims.animationManager;
+        const standingFrame = animationManager.get(direction).frames[1].frame.name;
         this.sprite.anims.stop();
+        this.sprite.setFrame(standingFrame);
     }
 
     startAnimation(direction: Direction) {

@@ -56,7 +56,7 @@ export class GameScene extends Phaser.Scene {
     
 
     //Adds Grid control to the player's sprite.
-    this.gridPhysics = new GridPhysics(player);
+    this.gridPhysics = new GridPhysics(player, testTileMap);
     this.gridControls = new GridControls(
       this.input,
       this.gridPhysics
